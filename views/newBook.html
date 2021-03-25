@@ -17,8 +17,10 @@
             <li><a href="./newBook.html" id= 'newBookLink'>Add a New Book</a></li>
         </nav>
     </nav>
+
+    <h1>Add a New Book</h1>
+
     <form id="newBookForm" action="http://myapi-profstream.herokuapp.com/api/c4a880/books" method="POST">
-        <h1>Add a New Book</h1>
 
         <label for="title">Title</label>
         <input id = "title" name="title" type="text" required>
@@ -32,7 +34,7 @@
         <label for="image">Bookcover</label>
         <input id = "image" name="image" type="text" required>
 
-        <input type= "submit">
+        <input type= "submit" id="submitButton">
     </form>
 
     <script src="../app.js"></script>
