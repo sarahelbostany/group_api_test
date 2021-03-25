@@ -5,7 +5,6 @@ const navBar = document.querySelector('#navBar')
 const allBooksLink = document.querySelector('#allBooksLink')
 const booksContainer = document.querySelector('#booksContainer')
 const newBookForm = document.querySelector('#newBookForm')
-const booksOverview = []
 
 const url = 'http://myapi-profstream.herokuapp.com/api/c4a880/books'
 
@@ -20,7 +19,6 @@ async function getBooks(url) {
         console.log(error)
     }
 }
-// getBooks(url)
 
 // GET /books/:id
 async function getBook(url,id) {
@@ -100,36 +98,25 @@ function displayBooks(booksData) {
         index++
     }
     const detailBtns = document.querySelectorAll('.detailBtn')
-
     bookDetails(detailBtns, booksData)
-
-
 }
 
 function bookDetails(buttons, booksData){
     for (let button of buttons){
-       button.addEventListener("click", (event) => {
-        console.log(event.target.id)
-        const btnId = event.target.id
-        const btnArr = btnId.split("")
-        const bookIndex = btnArr[1]
-        const book = booksData[bookIndex]
-        const bookID = book["id"]
-        getBook(url, bookID)
-    //    const pathOrigin = window.location.origin
-    //     window.location.href= `${pathOrigin}/views/book.html`
+        button.addEventListener("click", (event) => {
+            console.log(event.target.id)
+            const btnId = event.target.id
+            const btnArr = btnId.split("")
+            const bookIndex = btnArr[1]
+            const book = booksData[bookIndex]
+            const bookID = book["id"]
+            getBook(url, bookID)
+        // const pathOrigin = window.location.origin
+        // window.location.href= `${pathOrigin}/views/book.html`
 
        })
     }
 }
-
-
-
-
-
-
-
-
 
 // EVENT LISTENERS
 allBooksLink.addEventListener('click', getBooks(url))
