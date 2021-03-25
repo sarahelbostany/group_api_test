@@ -10,9 +10,14 @@ const url = 'http://myapi-profstream.herokuapp.com/api/c4a880/books'
 
 // GET /books
 async function getBooks(url) {
-    let res = await fetch(url)
-    let data = await res.json()
-    console.log(data)
+    try {
+        let res = await fetch(url)
+        let data = await res.json().then((data) => {
+            displayBooks(data)
+        })
+    } catch (error) {
+        console.log(error)
+    }
 }
 // getBooks(url)
 
@@ -21,7 +26,6 @@ async function getBook(url,id) {
     let res = await fetch(`${url}/${id}`)
     let data = await res.json()
     console.log(data)
-    diplayBooks(data)
 }
 
 // POST /books
@@ -83,6 +87,7 @@ function displayBooks(booksData) {
         bookAuthor.classList.add('bookAuthor')
         bookAuthor.innerHTML = book.author
         newBook.append(bookAuthor)
+        console.log(newBook)
     }
 }
 
