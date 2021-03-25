@@ -3,6 +3,12 @@ body {
     /* position: relative; */
 }
 
+main {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    
+}
+
 /* .layer {
     background-color: rgb(75, 88, 66, 0.8);
     position: absolute; 
@@ -55,4 +61,13 @@ li a:hover {
 
 section {
     color: #daddd8;
+    font-family: 'Cormorant Unicase', serif;
+}
+
+.bookTitle {
+    font-size: 30px;
+}
+
+.bookAuthor {
+    font-size: 20px;
 }
