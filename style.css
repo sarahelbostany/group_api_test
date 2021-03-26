@@ -108,7 +108,7 @@ img {
     text-align: center;
 }
 
-#bookContainer {
+#bookGridContainer {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     margin: 10px;

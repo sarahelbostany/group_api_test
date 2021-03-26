@@ -35,20 +35,15 @@ async function getBook(url,id) {
 }
 
 // POST /books
-async function postBook() {
+async function postBook(bodyInfo) {
     let res = await fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            // title: ,
-            // author: ,
-            // release_date: ,
-            // image: ,
-        })
+        body: JSON.stringify(bodyInfo)
     })
-    console.log(res)
+    console.log(res, 'POST RES')
 }
 
 // PUT /books/:id
@@ -127,14 +122,18 @@ function displayBookDetails(bookData) {
     console.log(bookData, 'single book data')
     mainHeader.innerHTML = `${bookData.title} Details`
 
+    const bookGridContainer = document.createElement('div')
+    bookGridContainer.setAttribute('id', 'bookGridContainer')
+    bookContainer.append(bookGridContainer)
+
     const details = document.createElement('div')
     details.setAttribute('id', 'details')
     details.classList.add('detailsGrid')
-    bookContainer.append(details)
+    bookGridContainer.append(details)
 
     const detailImg = document.createElement('div')
     detailImg.classList.add('detailsGrid')
-    bookContainer.append(detailImg)
+    bookGridContainer.append(detailImg)
 
     const bookTitle = document.createElement('h3')
     bookTitle.classList.add('bookTitle')
@@ -159,7 +158,7 @@ function displayBookDetails(bookData) {
     const editBtn = document.createElement('button')
     editBtn.classList.add('editBtn')
     editBtn.innerHTML = "Edit Book"
-    bookContainer.append(editBtn)
+    bookGridContainer.append(editBtn)
 
     const btn = document.querySelector('.editBtn')
     btn.addEventListener('click', () => {
@@ -193,6 +192,7 @@ function populateEditForm(bookData) {
         
         console.log(bodyInfo, 'bodyInfo')
         editBook(bookData.id, bodyInfo)
+        goHome()
     })
     deleteBtn.addEventListener('click', (event) => {
         console.log(event, 'delete event')
@@ -200,13 +200,32 @@ function populateEditForm(bookData) {
         const answer = confirm('Are you sure you want to delete this book?')
         if(answer === true) {
             deleteBook(bookData.id)
-            hideSections()
-            booksContainer.classList.add('hidden')
+            goHome()
         } else {
             console.log('Your book is safe.')
         }
     })
 }
+
+newBookForm.addEventListener('submit', (event) => {
+    event.preventDefault()
+    const newFormInputs = document.querySelectorAll('.newFormInput')
+
+    const title = newFormInputs[0].value
+    const author = newFormInputs[1].value
+    const release_date = newFormInputs[2].value
+    const image = newFormInputs[3].value
+
+    const bodyInfo = {
+        title: title,
+        author: author,
+        release_date: release_date,
+        image: image
+    }
+
+    postBook(bodyInfo)
+    goHome()
+})
 
 // EVENT LISTENERS
 for(let navLink of navLinks) {
@@ -215,12 +234,12 @@ for(let navLink of navLinks) {
         hideSections()
         clearMains()
         if(target === 'Home') {
-            mainHeader.innerHTML = 'WELCOME TO OUR API LIBRARY!'
-            homePage.classList.remove('hidden')
+            goHome()
         } else if(target === 'See All Books') {
             getBooks(url)
             booksContainer.classList.remove('hidden')
         } else if(target === 'Add a New Book') {
+            mainHeader.innerHTML = 'Add a New Book'
             newBookForm.classList.remove('hidden')
         }
     })
@@ -240,4 +259,10 @@ function clearMains() {
     while (bookContainer.firstChild) {
         bookContainer.removeChild(bookContainer.firstChild);
     }
+}
+
+function goHome() {
+    hideSections()
+    mainHeader.innerHTML = 'WELCOME TO OUR API LIBRARY!'
+    homePage.classList.remove('hidden')
 }
