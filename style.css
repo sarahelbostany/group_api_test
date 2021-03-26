@@ -168,8 +168,7 @@ input {
     padding: 1rem 2rem;
     margin: 0;
     text-decoration: none;
-    background: #daddd8;
-    box-shadow: 10px 5px 5px black;
+    background-color: #daddd8;
 }
 
 .editBtn {
