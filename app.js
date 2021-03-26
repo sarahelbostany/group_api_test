@@ -10,6 +10,7 @@ const booksContainer = document.querySelector('#booksContainer')
 const bookContainer = document.querySelector('#bookContainer')
 const editBookForm = document.querySelector('#editBookForm')
 const newBookForm = document.querySelector('#newBookForm')
+const deleteBtn = document.querySelector('#deleteBtn')
 
 const url = 'http://myapi-profstream.herokuapp.com/api/c4a880/books'
 
@@ -64,9 +65,9 @@ async function editBook(id, bodyInfo) {
 }
 
 // DELETE /books/:id
-async function deleteBook(id, method) {
+async function deleteBook(id) {
     let res = await fetch(`${url}/${id}`, {
-        method: method
+        method: 'DELETE'
     })
     console.log(res)
 }
@@ -177,7 +178,7 @@ function populateEditForm(bookData) {
 
     editBookForm.addEventListener('submit', (event) => {
         event.preventDefault()
-    
+        console.log(event, 'form sumbit')
         const title = editFormInputs[0].value
         const author = editFormInputs[1].value
         const release_date = editFormInputs[2].value
@@ -193,6 +194,18 @@ function populateEditForm(bookData) {
         console.log(bodyInfo, 'bodyInfo')
         editBook(bookData.id, bodyInfo)
     })
+    deleteBtn.addEventListener('click', (event) => {
+        console.log(event, 'delete event')
+        event.preventDefault() // stops form from creating 'submit' event
+        const answer = confirm('Are you sure you want to delete this book?')
+        if(answer === true) {
+            deleteBook(bookData.id)
+            hideSections()
+            booksContainer.classList.add('hidden')
+        } else {
+            console.log('Your book is safe.')
+        }
+    })
 }
 
 // EVENT LISTENERS
@@ -202,6 +215,7 @@ for(let navLink of navLinks) {
         hideSections()
         clearMains()
         if(target === 'Home') {
+            mainHeader.innerHTML = 'WELCOME TO OUR API LIBRARY!'
             homePage.classList.remove('hidden')
         } else if(target === 'See All Books') {
             getBooks(url)
