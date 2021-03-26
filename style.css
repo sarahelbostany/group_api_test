@@ -153,13 +153,29 @@ label {
     font-size: 16px;
 }
 
-#submitButton {
+.newFormInput {
+    display: block;
+    margin: 15px auto;
+    padding: 0;
+    height: 30px;
+    width: 75%;
+    position: relative;
+    left: 0;
+    outline: none;
+    border: 2px solid #262626;
+    border-color: rgba(0, 0, 0,);
+    background-color: #bbbbbb;
+    font-size: 16px;
+}
+
+.formBtn {
     display: block;
     margin: 15px auto;
     width: 25%;
     background-color: #262626;
     color: #bbbbbb;
     font-family: sans-serif;
+    font-size: 15px;
 }
 
 .detailBtn {
@@ -168,11 +184,7 @@ label {
     padding: 1rem 2rem;
     margin: 0;
     text-decoration: none;
-<<<<<<< HEAD
-    background: #bbbbbb;
-=======
     background-color: #daddd8;
->>>>>>> d6c94fab3193321eb2e084588fbd30220c48f753
 }
 
 .editBtn {
@@ -188,18 +200,6 @@ label {
     cursor: pointer;
     text-align: center;
     box-shadow: 10px 5px 5px black;
-}
-
-#deleteBtn {
-    display: block;
-    margin: 25px auto;
-    width: 40%;
-    background: #bbbbbb;
-    border: 2px solid #262626;
-    padding:5px 0 5px 0;
-    text-align: center;
-    font-size: 15px;
-    color:black;
 }
 
 .hidden {
