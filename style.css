@@ -156,6 +156,9 @@ img {
     margin: 0;
     text-decoration: none;
     background: #262626;
+
+/* .bookAuthor {
+    font-size: 20px;
     color: #bbbbbb;
     font-family: sans-serif;
     font-size: 1rem;
@@ -163,7 +166,7 @@ img {
     cursor: pointer;
     text-align: center;
     box-shadow: 10px 5px 5px black;
-}
+} */
 
 .editBtn {
     display: inline-block;
