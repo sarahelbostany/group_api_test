@@ -108,7 +108,7 @@ img {
     text-align: center;
 }
 
-#bookContainer {
+#bookGridContainer {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     margin: 10px;
@@ -168,7 +168,11 @@ label {
     padding: 1rem 2rem;
     margin: 0;
     text-decoration: none;
+<<<<<<< HEAD
     background: #bbbbbb;
+=======
+    background-color: #daddd8;
+>>>>>>> d6c94fab3193321eb2e084588fbd30220c48f753
 }
 
 .editBtn {
