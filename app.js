@@ -150,15 +150,15 @@ function displayBookDetails(bookData) {
     releaseDate.innerHTML = `Released: ${bookData.release_date}`
     details.append(releaseDate)
 
+    const editBtn = document.createElement('button')
+    editBtn.classList.add('editBtn')
+    editBtn.innerHTML = "Edit Book"
+    details.append(editBtn)
+
     const bookCover = document.createElement('img')
     bookCover.classList.add('bookCover')
     bookCover.setAttribute('src', bookData.image)
     detailImg.append(bookCover)
-
-    const editBtn = document.createElement('button')
-    editBtn.classList.add('editBtn')
-    editBtn.innerHTML = "Edit Book"
-    bookGridContainer.append(editBtn)
 
     const btn = document.querySelector('.editBtn')
     btn.addEventListener('click', () => {
@@ -189,7 +189,7 @@ function populateEditForm(bookData) {
             release_date: release_date,
             image: image
         }
-        
+
         console.log(bodyInfo, 'bodyInfo')
         editBook(bookData.id, bodyInfo)
         goHome()
