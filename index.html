@@ -11,14 +11,54 @@
 
 </head>
 <body>
-    <div>
-        <h1>WELCOME TO OUR API LIBRARY!</h1>
+    <nav id="navBar">
+        <li class="navLink" id='homeLink'>Home</li>
+        <li class="navLink" id='allBooksLink'>See All Books</li>
+        <li class="navLink" id='newBookLink'>Add a New Book</li>
+    </nav>
+    <h1 id="mainHeader">WELCOME TO OUR API LIBRARY!</h1>
+    <div class="section" id="homePage">
         <h3>Our library offers many of services! You can click through and see all the books we have to offer or add a new book that you would like to enjoy. We hope you enjoy your browsing! </h3>
-        <nav id="navBar">
-            <li><a href="./views/allBooks.html" id= 'allBooksLink'>See All Books</a></li>
-            <li><a href="./views/newBook.html" id= 'newBookLink'>Add a New Book</a></li>
-        </nav>
     </div>
+
+    <main class="section hidden" id='booksContainer'></main>
+
+    <main class="section hidden" id='bookContainer'></main>
+
+    <form class="section hidden" id="editBookForm" onsubmit="return false;">
+        <h1>Edit Book</h1>
+
+        <label for="title">Title</label>
+        <input class="editFormInput" id = "title" type="text">
+
+        <label for="author">Author</label>
+        <input class="editFormInput" id = "author" type="text">
+
+        <label for="release_date">Release Date</label>
+        <input class="editFormInput" id = "release_date" type="text">
+
+        <label for="image">Bookcover</label>
+        <input class="editFormInput" id = "image" type="text">
+
+        <input type="submit">
+    </form>
+
+    <form class="section hidden" id="newBookForm">
+
+        <label for="title">Title</label>
+        <input id = "title" name="title" type="text" required>
+
+        <label for="author">Author</label>
+        <input id = "author" name="author" type="text" required>
+
+        <label for="release_date">Release Date</label>
+        <input id = "release_date" name="release_date" type="text" required>
+
+        <label for="image">Bookcover</label>
+        <input id = "image" name="image" type="text" required>
+
+        <input type= "submit" id="submitButton">
+    </form>
 
 
     <script src="./app.js"></script>
