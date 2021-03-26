@@ -2,8 +2,13 @@ console.log('hello from app.js')
 
 // DOM SELECTORS
 const navBar = document.querySelector('#navBar')
-const allBooksLink = document.querySelector('#allBooksLink')
+const navLinks = document.querySelectorAll('.navLink')
+const views = document.querySelectorAll('.section')
+const mainHeader = document.querySelector('#mainHeader')
+const homePage = document.querySelector('#homePage')
 const booksContainer = document.querySelector('#booksContainer')
+const bookContainer = document.querySelector('#bookContainer')
+const editBookForm = document.querySelector('#editBookForm')
 const newBookForm = document.querySelector('#newBookForm')
 
 const url = 'http://myapi-profstream.herokuapp.com/api/c4a880/books'
@@ -23,14 +28,15 @@ async function getBooks(url) {
 // GET /books/:id
 async function getBook(url,id) {
     let res = await fetch(`${url}/${id}`)
-    let data = await res.json()
-    console.log(data, "singleBookData")
+    let data = await res.json().then((data) => {
+        displayBookDetails(data)
+    })
 }
 
 // POST /books
-async function postBook(url, method) {
+async function postBook() {
     let res = await fetch(url, {
-        method: method,
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -45,34 +51,33 @@ async function postBook(url, method) {
 }
 
 // PUT /books/:id
-async function editBook(url, id, method) {
+async function editBook(id, bodyInfo) {
+    console.log(id, bodyInfo, 'inside editBook')
     let res = await fetch(`${url}/${id}`, {
-        method: method,
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: {
-            // title: ,
-            // author: ,
-            // release_date: ,
-            // image: ,
-        }
+        body: bodyInfo
     })
-    console.log(res)
+    console.log(res, 'PUT res')
 }
 
 // DELETE /books/:id
-async function deleteBook(url, id, method) {
+async function deleteBook(id, method) {
     let res = await fetch(`${url}/${id}`, {
         method: method
     })
     console.log(res)
 }
 
-// FILL IN <main> ON allBooks.html
+
+
+// FILL IN <main> when we click 'See All Books'
 function displayBooks(booksData) {
     console.log('we got data', booksData)
     let index=0;
+    mainHeader.innerHTML = 'All Books in Library'
     for(let book of booksData) {
         const newBook = document.createElement('section')
         newBook.classList.add('bookOverview')
@@ -87,7 +92,6 @@ function displayBooks(booksData) {
         bookAuthor.classList.add('bookAuthor')
         bookAuthor.innerHTML = book.author
         newBook.append(bookAuthor)
-        console.log(newBook)
 
         const detailBtn = document.createElement('button')
         detailBtn.classList.add('detailBtn')
@@ -110,13 +114,119 @@ function bookDetails(buttons, booksData){
             const bookIndex = btnArr[1]
             const book = booksData[bookIndex]
             const bookID = book["id"]
+            hideSections()
+            clearMains()
+            bookContainer.classList.remove('hidden')
             getBook(url, bookID)
-        // const pathOrigin = window.location.origin
-        // window.location.href= `${pathOrigin}/views/book.html`
-
-       })
+        })
     }
 }
 
+function displayBookDetails(bookData) {
+    console.log(bookData, 'single book data')
+    mainHeader.innerHTML = `${bookData.title} Details`
+
+    const details = document.createElement('div')
+    details.setAttribute('id', 'details')
+    details.classList.add('detailsGrid')
+    bookContainer.append(details)
+
+    const detailImg = document.createElement('div')
+    detailImg.classList.add('detailsGrid')
+    bookContainer.append(detailImg)
+
+    const bookTitle = document.createElement('h3')
+    bookTitle.classList.add('bookTitle')
+    bookTitle.innerHTML = `Title:  ${bookData.title}`
+    details.append(bookTitle)
+
+    const bookAuthor = document.createElement('p')
+    bookAuthor.classList.add('bookAuthor')
+    bookAuthor.innerHTML = `Author:  ${bookData.author}`
+    details.append(bookAuthor)
+
+    const releaseDate = document.createElement('p')
+    releaseDate.classList.add('releaseDate')
+    releaseDate.innerHTML = `Released: ${bookData.release_date}`
+    details.append(releaseDate)
+
+    const bookCover = document.createElement('img')
+    bookCover.classList.add('bookCover')
+    bookCover.setAttribute('src', bookData.image)
+    detailImg.append(bookCover)
+
+    const editBtn = document.createElement('button')
+    editBtn.classList.add('editBtn')
+    editBtn.innerHTML = "Edit Book"
+    bookContainer.append(editBtn)
+
+    const btn = document.querySelector('.editBtn')
+    btn.addEventListener('click', () => {
+        hideSections()
+        editBookForm.classList.remove('hidden')
+        populateEditForm(bookData)
+    })
+}
+
+function populateEditForm(bookData) {
+    const editFormInputs = document.querySelectorAll('.editFormInput')
+    editFormInputs[0].value = bookData.title
+    editFormInputs[1].value = bookData.author
+    editFormInputs[2].value = bookData.release_date
+    editFormInputs[3].value = bookData.image
+
+    editBookForm.addEventListener('submit', (event) => {
+        console.log(event)
+        event.preventDefault()
+    
+        const title = editFormInputs[0].value
+        const author = editFormInputs[1].value
+        const release_date = editFormInputs[2].value
+        const image = editFormInputs[3].value
+
+        const bodyInfo = {
+            title: title,
+            author: author,
+            release_date: release_date,
+            image: image
+        }
+        
+        console.log(bodyInfo, 'bodyInfo')
+        editBook(bookData.id, bodyInfo)
+    })
+}
+
 // EVENT LISTENERS
-allBooksLink.addEventListener('click', getBooks(url))
+for(let navLink of navLinks) {
+    navLink.addEventListener('click', (event) => {
+        const target = event.target.innerHTML
+        hideSections()
+        clearMains()
+        if(target === 'Home') {
+            homePage.classList.remove('hidden')
+        } else if(target === 'See All Books') {
+            getBooks(url)
+            booksContainer.classList.remove('hidden')
+        } else if(target === 'Add a New Book') {
+            newBookForm.classList.remove('hidden')
+        }
+    })
+}
+
+
+
+// REUSABLE FUNCTIONS
+function hideSections() {
+    for(let view of views) {
+        view.classList.add('hidden')
+    }
+}
+
+function clearMains() {
+    while (booksContainer.firstChild) {
+        booksContainer.removeChild(booksContainer.firstChild);
+    }
+    while (bookContainer.firstChild) {
+        bookContainer.removeChild(bookContainer.firstChild);
+    }
+}
