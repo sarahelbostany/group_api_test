@@ -40,12 +40,12 @@ async function postBook() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: {
+        body: JSON.stringify({
             // title: ,
             // author: ,
             // release_date: ,
             // image: ,
-        }
+        })
     })
     console.log(res)
 }
@@ -58,7 +58,7 @@ async function editBook(id, bodyInfo) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: bodyInfo
+        body: JSON.stringify(bodyInfo)
     })
     console.log(res, 'PUT res')
 }
@@ -176,7 +176,6 @@ function populateEditForm(bookData) {
     editFormInputs[3].value = bookData.image
 
     editBookForm.addEventListener('submit', (event) => {
-        console.log(event)
         event.preventDefault()
     
         const title = editFormInputs[0].value
@@ -212,8 +211,6 @@ for(let navLink of navLinks) {
         }
     })
 }
-
-
 
 // REUSABLE FUNCTIONS
 function hideSections() {
